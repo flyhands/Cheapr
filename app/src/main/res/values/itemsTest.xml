@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string-array name="itemlist">
+        <item>
+
+
+        </item>
+        <item>Milo 2 in 1</item>
+        <item>Nescafe 3 in 1</item>
+        <item>Nescafe 1 in 1</item>
+        <item>Maggi 3 in 1</item>
+        <item>Maggi india 1</item>
+    </string-array>
+</resources>

@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Murah</string>
+    <string name="title_home">Home</string>
+    <string name="title_cart">Cart</string>
+    <string name="action_cart">Cart</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="category1">Food</string>
+    <string name="category2">Toiletries</string>
+    <string name="category3">Pets</string>
+    <string name="category4">Beverages</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_home">Hello home</string>
+    <string name="buttonCat1">Snack</string>
+    <string name="buttonCat2">Drink</string>
+    <string name="buttonCat3">Fresh Food</string>
+    <string name="buttonCat4">Ingredient</string>
+    <string name="buttonCat5">Toiletries</string>
+    <string name="buttonCat6">Household</string>
+    <string name="addToCart">Add to Cart</string>
+    <string name="locate">Locate</string>
+
+
+</resources>
