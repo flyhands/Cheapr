@@ -36,6 +36,7 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         try {
@@ -46,12 +47,15 @@ public class SearchActivity extends AppCompatActivity {
             Log.e("SEARCH", "Failed to parse");
         }
 
-        ArrayList<String> values = new ArrayList<>();
+        final ArrayList<String> values = new ArrayList<>();
         String key = getIntent().getExtras().getString("searchkeyword");
         Log.e("msg", getIntent().hasExtra("category")?getIntent().getExtras().getString("category"):"NO");
         lv = (ListView)findViewById(R.id.itemSearch);
+
+
         sv = (SearchView)findViewById(R.id.searchField);
         if (getIntent().hasExtra("category")) {
+            sv.setVisibility(View.GONE);//hide the searchview
             String cat = getIntent().getExtras().getString("category");
             try {
                 for (int i = 0; i < json.length(); i++) {
@@ -77,6 +81,36 @@ public class SearchActivity extends AppCompatActivity {
             ia = new ItemAdapter(this, R.layout.listview_item, values.toArray(new String[0]), key);
         }
         lv.setAdapter(ia);
+//        lv.setAdapter(new BaseAdapter() {
+//            @Override
+//            public int getCount() {
+//                return json.length();
+//            }
+//
+//            @Override
+//            public Object getItem(int i) {
+//                return "item " + i;
+//            }
+//
+//            @Override
+//            public long getItemId(int i) {
+//                return i;
+//            }
+//
+//            @Override
+//            public View getView(int i, View view, ViewGroup viewGroup) {
+//                if(view == null){
+//                    view = new TextView(SearchActivity.this);
+//                    view.setPadding(10,10,10,10);
+//                    ((TextView)view).setTextColor(Color.BLUE);
+//                }
+//
+//                view.setBackgroundColor((i == 1) ?
+//                        Color.argb(0x80, 0x20, 0xa0, 0x40) : Color.argb(0, 0, 0, 0));
+//                ((TextView)view).setText((String)getItem(i));
+//                return view;
+//            }
+//        });
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

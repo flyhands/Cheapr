@@ -35,13 +35,20 @@ public class ItemAdapter extends ArrayAdapter {
         TextView tv = (TextView)view.findViewById(R.id.tv);
         Log.e("msg1", key.isEmpty()?"empty":"not empty");
         Log.e("msg1",values[position]);
+//        if(position==0) {
+//            tv.setBackgroundColor(getContext().getResources().getColor(R.color.darker_purple));}
+//        else if(position==1) {
+//            tv.setBackgroundColor(getContext().getResources().getColor(R.color.maroon));}
+
         if (!key.isEmpty()) {
+//            tv.setBackgroundColor(getContext().getResources().getColor(R.color.darker_purple));
             if(values[position].toLowerCase().contains(key)) {
                 tv.setText(values[position]);
             }
             else {
                 view = new Space(context);
             }
+
         }
         else {
             tv.setText(values[position]);

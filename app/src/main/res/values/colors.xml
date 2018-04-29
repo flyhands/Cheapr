@@ -14,7 +14,11 @@
     <color name="light_brown">#df8270</color>
     <color name="peach">#ffab85</color>
     <color name="orange_pink">#ed695a</color>
-    <color name="yellow">#ffc553</color>
-    <color name="green_blue">#50a897</color>
+    <color name="yellow">#fcb849</color>
+    <color name="green_blue">#25969a</color>
     <color name="white">#FFFFFF</color>
+    <color name="maroon">#ad0b47</color>
+    <color name="brown_grey">#86736c</color>
+    <color name="navi_blue">#4c6174</color>
+    <color name="grey">#575c60</color>
 </resources>

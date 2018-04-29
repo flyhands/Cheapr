@@ -3,8 +3,6 @@ package kict.edu.my.cheapr;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -12,9 +10,9 @@ import java.util.ArrayList;
 
 public class ShopListActivity extends AppCompatActivity {
     ListView lv;
-    ArrayAdapter ia;
+    ItemAdapter ia;
     ArrayList<String> values;
-    TextView tv;
+    TextView textv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,18 +20,19 @@ public class ShopListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shop_list);
         lv = (ListView)findViewById(R.id.listViewCart);
         values = new ArrayList<>();
-        tv = (TextView)findViewById(R.id.msg_cart);
-
-        tv.setText(R.string.title_cart);
         Intent intent = getIntent();
         final String name = intent.getStringExtra("name");
-        Log.e("msg","Name received");
+        textv = (TextView)findViewById(R.id.msg_cart);
+
+        textv.setText(name);
+
+//        Log.e("msg",name);
 
         ia = null;
         values.add(name);
-        ia = new ArrayAdapter<String>(getApplicationContext(),R.layout.listview_item,values);
+        ia = new ItemAdapter(this, R.layout.listview_item, values.toArray(new String[0]),"");
         lv.setAdapter(ia);
-        ia.notifyDataSetChanged();
+//        ia.notifyDataSetChanged();
 
     }
 

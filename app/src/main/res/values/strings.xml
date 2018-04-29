@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Murah</string>
+    <string name="app_name">Cheapr</string>
     <string name="title_home">Home</string>
     <string name="title_cart">Cart</string>
     <string name="action_cart">Cart</string>
@@ -19,6 +19,7 @@
     <string name="buttonCat6">Household</string>
     <string name="addToCart">Add to Cart</string>
     <string name="locate">Locate</string>
+    <string name="title_activity_splash_screen">Splash</string>
 
 
 </resources>
