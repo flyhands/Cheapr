@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Space;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Created by User on 17/4/2018.
  */
@@ -24,7 +26,7 @@ public class ItemAdapter extends ArrayAdapter {
         super(context, resource, objects);
         Log.e("msg1", "itemadapter");
         layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        values = objects;
+        this.values = objects;
         this.context = context;
         this.key = key;
     }
@@ -59,5 +61,9 @@ public class ItemAdapter extends ArrayAdapter {
 
     public void setKey(String key){
         this.key = key;
+    }
+
+    public void updateData(String[] strings) {
+        this.values = values;
     }
 }
