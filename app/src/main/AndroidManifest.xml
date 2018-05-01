@@ -20,9 +20,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".ItemActivity" />
-        <activity android:name=".ShopListActivity" />
+        <activity android:name=".SearchActivity"
+            android:label="@string/search_result">
+        </activity>
+        <activity android:name=".ItemActivity"
+            android:label="@string/item">
+        </activity>
+        <activity android:name=".ShopListActivity"
+                  android:label="@string/shopping_list">
+        </activity>
         <activity
             android:name=".Splash"
             android:label="@string/title_activity_splash_screen">

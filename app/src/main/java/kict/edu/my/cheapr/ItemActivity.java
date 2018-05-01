@@ -12,24 +12,18 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
 public class ItemActivity extends AppCompatActivity {
-    private ItemDataSource datasource;
+    DatabaseHelper myDB;
     Button addToCart;
     Button locate;
+    String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
 
-        datasource = new ItemDataSource(this);
-        datasource.open();
-        Log.e("msg", "Datasource open");
-
-        List<StoreData> values = datasource.getAllItemNames();
-        Log.e("msg", "Store data stored in the list");
+        myDB = new DatabaseHelper(this);
 
         addToCart = (Button) findViewById(R.id.addToCart);
         locate = (Button) findViewById(R.id.locate);
@@ -40,7 +34,7 @@ public class ItemActivity extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        final String name = intent.getStringExtra("text");
+        name = intent.getStringExtra("text");
 
         TextView tv = (TextView) findViewById(R.id.itemName);
         tv.setText(name);
@@ -57,25 +51,14 @@ public class ItemActivity extends AppCompatActivity {
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                datasource.createItem_name(name);
-                Log.e("msg", "item created");
-
-//                Bundle bundle = new Bundle();
-//                bundle.putString("name",name);
-//                // set fragment_cart argument
-//                CartFragment fragCart = new CartFragment();
-//                fragCart.setArguments(bundle);
+                addItem(name);
                 Toast.makeText(ItemActivity.this, name + " added to cart", Toast.LENGTH_LONG).show(); // Toast for displaying
-                Intent i = new Intent(getApplicationContext(), ShopListActivity.class);
-                i.putExtra("name", name);
-                startActivity(i);
-                Log.e("msg", "dapat send intent");
-
-//                TextView txtview = (TextView)view.findViewById(R.id.tv);
+//                Intent i = new Intent(getApplicationContext(), ShopListActivity.class);
+//                i.putExtra("itemName", name);
+//                startActivity(i);
 //
-//                Log.e("msg","dapat access listview");
-//                String text = txtview.getText().toString();
-//                Log.e("msg","dapat text");
+//                Log.e("msg", "dapat send intent");
+//
             }
         });
 
@@ -105,16 +88,17 @@ public class ItemActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
     }
-    @Override
-    protected void onResume() {
-        datasource.open();
-        super.onResume();
+    //Method for adding item into database
+    public void addItem(String name){
+        boolean isInserted = myDB.insertData(name);
+        if(isInserted == true)
+            Toast.makeText(ItemActivity.this,"Data inserted", Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(ItemActivity.this,"Data not inserted", Toast.LENGTH_LONG).show();
+
+
     }
-    @Override
-    protected void onPause() {
-        datasource.close();
-        super.onPause();
-    }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

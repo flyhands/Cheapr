@@ -61,7 +61,7 @@ public class HomeActivity extends AppCompatActivity {
 //            builder.show();
 //            return true;
             Log.e("msg", "commited nav cart");
-            Intent x = new Intent(getApplicationContext(), ShopListActivity.class);
+            Intent x = new Intent(HomeActivity.this, ShopListActivity.class);
             startActivity(x);
 //            CartFragment frag_cart = new CartFragment();
 //            fragmentTransaction.replace(R.id.fragment, frag_cart);

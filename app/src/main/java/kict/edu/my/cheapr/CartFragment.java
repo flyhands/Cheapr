@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -33,8 +32,8 @@ public class CartFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
-        TextView tv = (TextView) view.findViewById(R.id.message_cart);
-        tv.setText(R.string.title_cart);
+//        TextView tv = (TextView) view.findViewById(R.id.message_cart);
+//        tv.setText(R.string.title_cart);
 
         String item_name = getArguments().getString("name");
         Log.e("msg","name successfully sent");

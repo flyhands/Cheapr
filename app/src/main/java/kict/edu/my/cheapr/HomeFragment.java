@@ -109,7 +109,7 @@ public class HomeFragment extends Fragment {
         btnFreshfood.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent i = new Intent(getContext(),SearchActivity.class);
-                i.putExtra("category", "freshfood");
+                i.putExtra("category", "fresh food");
                 startActivity(i);
             }
         });
