@@ -9,6 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import kict.edu.my.cheapr.web.RetrieveProductList;
+
 public class HomeActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
@@ -28,12 +30,12 @@ public class HomeActivity extends AppCompatActivity {
         Log.e("msg", "committed layoutdsdadsa");
         setContentView(R.layout.activity_home);
         Log.e("msg", "committed layout");
+
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment, new HomeFragment());
         fragmentTransaction.commit();
-
-
+        new RetrieveProductList().execute("http://35.189.162.214:8001/supermarket");
     }
 
     @Override
