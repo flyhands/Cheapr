@@ -75,9 +75,11 @@ public class ItemActivity extends AppCompatActivity {
 //        getSupportActionBar().setTitle(Html.fromHtml("<font color='#301631'>ActionBartitle</font>"));
 
         locate.add("0");
+        locate.add("1");
          for(int a =0;a<2;a++){//nak edit sini wehh esok
-            aa = new ArrayAdapter<String>(this,R.id.location_image,t
- /            aa = new CustomAdapter(this,locate );
+
+            adapter = new ArrayAdapter<String>(this,R.layout.location_image,locate);
+// /            aa = new CustomAdapter(this,locate,R.layout.location_image,locate);
             lvLocate.setAdapter(aa);
         }
 
