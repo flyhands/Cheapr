@@ -1,22 +1,38 @@
 package kict.edu.my.cheapr;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class ItemActivity extends AppCompatActivity {
     DatabaseHelper myDB;
-    Button addToCart;
-    Button locate;
+//    Button addToCart;
+//    Button locate;
     String name;
+    ListView lvMarket;
+    ListView lvPrice;
+    ListView lvCart;
+    ListView lvLocate;
+    ArrayList<String> market;
+    ArrayList<String> price;
+    ArrayList<String> locate;
+    ArrayList<String> cart;
+    ArrayAdapter<String> adapter;
+//    CustomAdapter ca;
+    CustomAdapter aa;
+
+    private static final String TAG = "ItemActivity";
+    private static final int ERROR_DIALOG_REQUEST = 9001;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +41,51 @@ public class ItemActivity extends AppCompatActivity {
 
         myDB = new DatabaseHelper(this);
 
-        addToCart = (Button) findViewById(R.id.addToCart);
-        locate = (Button) findViewById(R.id.locate);
-
-//        getSupportActionBar().setTitle(Html.fromHtml("<font color='#301631'>ActionBartitle</font>"));
+//        addToCart = (Button) findViewById(R.id.addToCart);
+//        locate = (Button) findViewById(R.id.locate);
+        lvMarket = (ListView)findViewById(R.id.marketList);
+        lvPrice = (ListView)findViewById(R.id.priceList);
+        lvCart = (ListView)findViewById(R.id.cartList);
+        lvLocate = (ListView)findViewById(R.id.locateList);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        market = new ArrayList<>();
+        price = new ArrayList<>();
+        locate = new ArrayList<>();
+        cart = new ArrayList<>();
+
+        market.add("Giant");
+        market.add("Econsave");
+        Log.e("msg","Supermarket successfully added");
+
+        for(int x =0;x<market.size();x++){
+            adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,market);
+            Log.e("msg","adapter works");
+            lvMarket.setAdapter(adapter);
+        }
+
+        price.add("RM22.50");
+        price.add("RM22.00");
+
+        for(int y =0;y<price.size();y++){
+            adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,price);
+            Log.e("msg","adapter works");
+            lvPrice.setAdapter(adapter);
+        }
+//        getSupportActionBar().setTitle(Html.fromHtml("<font color='#301631'>ActionBartitle</font>"));
+
+        locate.add("0");
+         for(int a =0;a<2;a++){//nak edit sini wehh esok
+            aa = new ArrayAdapter<String>(this,R.id.location_image,t
+ /            aa = new CustomAdapter(this,locate );
+            lvLocate.setAdapter(aa);
+        }
+
+//        for(int b=0;b<price.size();b++){
+//
+//            ca = new CustomAdapter(this,android.R.layout.simple_list_item_1,cart);
+//            lvCart.setAdapter(ca);
+//        }
 
 
 
@@ -39,31 +95,28 @@ public class ItemActivity extends AppCompatActivity {
         TextView tv = (TextView) findViewById(R.id.itemName);
         tv.setText(name);
 
-        locate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                        Uri.parse("google.navigation:q=an+Giant+Batu Caves"));
-                startActivity(intent);
-            }
-        });
+//        locate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+//                        Uri.parse("google.navigation:q=an+Giant"));
+//                startActivity(intent);
+//            }
+//        });
 
-        addToCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addItem(name);
-                Toast.makeText(ItemActivity.this, name + " added to cart", Toast.LENGTH_LONG).show(); // Toast for displaying
-//                Intent i = new Intent(getApplicationContext(), ShopListActivity.class);
-//                i.putExtra("itemName", name);
-//                startActivity(i);
+//        addToCart.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                addItem(name);
+//                Toast.makeText(ItemActivity.this, name + " added to cart", Toast.LENGTH_LONG).show(); // Toast for displaying
 //
-//                Log.e("msg", "dapat send intent");
 //
-            }
-        });
+//            }
+//        });
 
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,4 +157,25 @@ public class ItemActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
+//    public boolean isServicesOK(){
+//        Log.e(TAG,"isServicesOK: checking google services version");
+//
+//        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(ItemActivity.this);
+//
+//        if(available == ConnectionResult.SUCCESS){
+//            //everything is fine and the user can make map requests
+//            Log.e(TAG, "isServicesOK:  Google play services is working");
+//            return true;
+//        }
+//        else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
+//            //an error occurred but we can fit ix
+//            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(ItemActivity.this, available, ERROR_DIALOG_REQUEST);
+//            dialog.show();
+//        }
+//        else{
+//            Toast.makeText(this,"You can't make app requests", Toast.LENGTH_SHORT).show();
+//        }
+//        return false;
+//    }
 }

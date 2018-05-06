@@ -23,5 +23,9 @@
     <string name="shopping_list">Shopping List</string>
     <string name="item">Item</string>
     <string name="search_result">Search Result</string>
+    <string name="google_maps_API_key">AIzaSyD2G07dA7SvpjSniwIenmdif8mfwY6Z4As</string>
+    <string name="marketList">Market List</string>
+
+
 
 </resources>
