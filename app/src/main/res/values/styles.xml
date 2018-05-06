@@ -12,6 +12,15 @@
         <!--change font color-->
         <item name="android:textColor">@color/grey</item>
         <item name ="actionBarStyle">@style/MyActionBar</item>
+        <item name="actionBarTheme">@style/AppTheme.ActionBarTheme</item>
+    </style>
+    <style name="AppTheme.ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@color/grey</item> <!-- sets the color for the back arrow -->
+        <item name="actionOverflowButtonStyle">@style/overflowButtonStyle</item> <!-- sets the style for the overflow button -->
+
+    </style>
+    <style name="overflowButtonStyle" parent="@style/Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/grey</item>
     </style>
     <style name="MyActionBar" parent="@style/Widget.AppCompat.ActionBar.Solid">
         <item name="titleTextStyle">@style/MyTitleTextStyle</item>
@@ -20,11 +29,18 @@
     <style name="MyTitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <!--change font color of text at menu-->
         <item name="android:textColor">@color/grey</item>
+        <item name="android:actionBarStyle">@style/TheActionBar</item>
+
     </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:textColor">@color/grey</item>
+
+    </style>
+
+    <style name="TheActionBar">
+        <item name="android:background">@color/grey</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
