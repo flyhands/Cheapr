@@ -1,12 +1,11 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="kict.edu.my.cheapr.ItemFragment"
+    tools:context="kict.edu.my.cheapr.PredictActivity"
     android:background="@color/maroon">
-
-    <!-- TODO: Update blank fragment layout -->
-
     <RelativeLayout
         android:id="@+id/fragmentItemLayout"
         android:layout_width="match_parent"
@@ -20,7 +19,7 @@
             android:layout_marginTop="127dp"
             android:text="Predicted price for next week is "
             android:textColor="@color/white"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:id="@+id/textView" />
 
         <TextView
@@ -31,7 +30,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="36dp"
             android:text="RM23.50"
-            android:textSize="65dp"
+            android:textSize="65sp"
             android:textColor="@color/white"
             />
 
@@ -45,5 +44,4 @@
             android:text="View Statistics"
             android:textColor="@color/white"/>
     </RelativeLayout>
-
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

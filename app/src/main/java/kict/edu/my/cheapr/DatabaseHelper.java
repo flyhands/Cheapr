@@ -13,7 +13,7 @@ import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Item.db";
-    public static final String TABLE_NAME = "student_table";
+    public static final String TABLE_NAME = "item_table";
     public static final String COL_1 = "ID";
     public static final String COL_2 = "NAME";
 
@@ -49,8 +49,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String query = "DELETE FROM " + TABLE_NAME + " WHERE "
                 + COL_1 + " = '" + id + "'" +
                 " AND " + COL_2 + " = '" + name + "'";
-        Log.d("msg", "deleteName: query: " + query);
-        Log.d("msg", "deleteName: Deleting " + name + " from database.");
+        Log.e("msg", "deleteName: query: " + query);
+        Log.e("msg", "deleteName: Deleting " + name + " from database.");
         db.execSQL(query);
     }
 
@@ -66,13 +66,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        }
 //    }
 
-    public void deleteData(int id){
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "DELETE FROM " + TABLE_NAME + " WHERE "
-                + COL_1 + " = '" + id + "'";
-        Log.d("msg", "deleteName: query: " + query);
-        db.execSQL(query);
-    }
+//    public void deleteData(int id){
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        String query = "DELETE FROM " + TABLE_NAME + " WHERE "
+//                + COL_1 + " = '" + id + "'";
+//        Log.d("msg", "deleteName: query: " + query);
+//        db.execSQL(query);
+//    }
 
     public Cursor getAllData(){
         SQLiteDatabase db = this.getWritableDatabase();

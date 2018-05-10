@@ -1,12 +1,19 @@
 package kict.edu.my.cheapr;
 
+
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,7 +24,9 @@ public class ItemActivity extends AppCompatActivity {
     DatabaseHelper myDB;
 //    Button addToCart;
 //    Button locate;
+    int a,b;
     String name;
+    Button btnPredict;
     ListView lvMarket;
     ListView lvPrice;
     ListView lvCart;
@@ -29,20 +38,20 @@ public class ItemActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
 //    CustomAdapter ca;
     CustomAdapter aa;
-
-    private static final String TAG = "ItemActivity";
-    private static final int ERROR_DIALOG_REQUEST = 9001;
-
+//    FragmentManager fm;
+//    FragmentTransaction transaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
 
+
         myDB = new DatabaseHelper(this);
 
 //        addToCart = (Button) findViewById(R.id.addToCart);
 //        locate = (Button) findViewById(R.id.locate);
+        btnPredict = (Button)findViewById(R.id.btnPredict);
         lvMarket = (ListView)findViewById(R.id.marketList);
         lvPrice = (ListView)findViewById(R.id.priceList);
         lvCart = (ListView)findViewById(R.id.cartList);
@@ -74,20 +83,62 @@ public class ItemActivity extends AppCompatActivity {
         }
 //        getSupportActionBar().setTitle(Html.fromHtml("<font color='#301631'>ActionBartitle</font>"));
 
-        locate.add("0");
-        locate.add("1");
-         for(int a =0;a<2;a++){//nak edit sini wehh esok
 
-            adapter = new ArrayAdapter<String>(this,R.layout.location_image,locate);
-// /            aa = new CustomAdapter(this,locate,R.layout.location_image,locate);
-            lvLocate.setAdapter(aa);
+         for(a=0;a<price.size();a++){
+            locate.add("Locate");
+             adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,locate);
+             Log.e("msg","adapter works");
+             lvLocate.setAdapter(adapter);
+
+             lvLocate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                 @Override
+                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                     final String sMarket = market.get(position).toString();
+                     Log.e("msg",sMarket);
+                     AlertDialog.Builder builder = new AlertDialog.Builder(ItemActivity.this);
+                     builder.setTitle("Google Maps");
+                     builder.setMessage("The map will direct you to the nearest branch.");
+                     builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                         @Override
+                         public void onClick(DialogInterface dialog, int which) {
+                             //Open google map URL
+                             Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("google.navigation:q=an+"+ sMarket +""));
+                             startActivity(intent);
+                         }
+                     });
+                     builder.setNegativeButton("Cancel",null);
+                     builder.show();
+                 }
+             });
         }
 
-//        for(int b=0;b<price.size();b++){
-//
-//            ca = new CustomAdapter(this,android.R.layout.simple_list_item_1,cart);
-//            lvCart.setAdapter(ca);
-//        }
+
+
+        //Adding item into arraylist and sqlite
+        for(int b=0;b<price.size();b++){
+            cart.add("Add");
+            adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,cart);
+            Log.e("msg","adapter works");
+            lvCart.setAdapter(adapter);
+
+            lvCart.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    addItem(name);
+                }
+            });
+        }
+
+        btnPredict.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(ItemActivity.this,PredictActivity.class);
+                startActivity(i);
+            }
+        });
+
+
 
 
 
@@ -97,24 +148,6 @@ public class ItemActivity extends AppCompatActivity {
         TextView tv = (TextView) findViewById(R.id.itemName);
         tv.setText(name);
 
-//        locate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-//                        Uri.parse("google.navigation:q=an+Giant"));
-//                startActivity(intent);
-//            }
-//        });
-
-//        addToCart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                addItem(name);
-//                Toast.makeText(ItemActivity.this, name + " added to cart", Toast.LENGTH_LONG).show(); // Toast for displaying
-//
-//
-//            }
-//        });
 
 
     }
@@ -160,24 +193,4 @@ public class ItemActivity extends AppCompatActivity {
         return true;
     }
 
-//    public boolean isServicesOK(){
-//        Log.e(TAG,"isServicesOK: checking google services version");
-//
-//        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(ItemActivity.this);
-//
-//        if(available == ConnectionResult.SUCCESS){
-//            //everything is fine and the user can make map requests
-//            Log.e(TAG, "isServicesOK:  Google play services is working");
-//            return true;
-//        }
-//        else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
-//            //an error occurred but we can fit ix
-//            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(ItemActivity.this, available, ERROR_DIALOG_REQUEST);
-//            dialog.show();
-//        }
-//        else{
-//            Toast.makeText(this,"You can't make app requests", Toast.LENGTH_SHORT).show();
-//        }
-//        return false;
-//    }
 }
