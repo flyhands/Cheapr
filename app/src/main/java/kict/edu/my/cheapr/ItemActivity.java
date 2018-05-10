@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,10 @@ public class ItemActivity extends AppCompatActivity {
     ArrayList<String> locate;
     ArrayList<String> cart;
     ArrayAdapter<String> adapter;
+    TextView tvMidRange;
+    TextView tvMinRange;
+    TextView tvMaxRange;
+    ProgressBar pb;
 //    CustomAdapter ca;
     CustomAdapter aa;
 //    FragmentManager fm;
@@ -49,14 +54,24 @@ public class ItemActivity extends AppCompatActivity {
 
         myDB = new DatabaseHelper(this);
 
-//        addToCart = (Button) findViewById(R.id.addToCart);
-//        locate = (Button) findViewById(R.id.locate);
+
         btnPredict = (Button)findViewById(R.id.btnPredict);
         lvMarket = (ListView)findViewById(R.id.marketList);
         lvPrice = (ListView)findViewById(R.id.priceList);
         lvCart = (ListView)findViewById(R.id.cartList);
         lvLocate = (ListView)findViewById(R.id.locateList);
+        tvMidRange = (TextView)findViewById(R.id.tvMidRange);
+        tvMinRange = (TextView)findViewById(R.id.tvMinRange);
+        tvMaxRange = (TextView)findViewById(R.id.tvMaxRange);
+        pb = (ProgressBar)findViewById(R.id.progressBar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        tvMidRange.setText("RM12.50");
+        tvMinRange.setText("RM13.50");
+        tvMaxRange.setText("RM14.50");
+
+        pb.setProgress(50);
 
         market = new ArrayList<>();
         price = new ArrayList<>();

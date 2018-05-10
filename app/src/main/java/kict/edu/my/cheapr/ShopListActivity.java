@@ -1,5 +1,7 @@
 package kict.edu.my.cheapr;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -20,12 +22,9 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import java.util.ArrayList;
 
 public class ShopListActivity extends AppCompatActivity{
-//    ListView lv;
-//    RecyclerView rv;
     String name;
     DatabaseHelper myDB;
     ArrayAdapter<String> aa;
-//    MyRecyclerViewAdapter adapter;
     ArrayList<String> itemList;
     int itemID;
     SwipeMenuListView clv;
@@ -37,11 +36,6 @@ public class ShopListActivity extends AppCompatActivity{
         Log.e("msg", "Layout formed");
 
         //Create and arraylist objet to store selected items
-
-//        lv = (ListView) findViewById(R.id.listCart);
-//        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-
-//        rv = (RecyclerView) findViewById(R.id.listCart);
 
         clv = (SwipeMenuListView)findViewById(R.id.swipeListCart);
 
@@ -61,19 +55,16 @@ public class ShopListActivity extends AppCompatActivity{
                 showMessage("Hey", "Your list is empty!");
                 Log.e("msg", "Message sent");
 
+
                 return;
             } else {
                 while (data.moveToNext()) {
                     itemList.add(data.getString(1));
 
                     aa = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, itemList);
-//                    lv.setAdapter(aa);
                     clv.setAdapter(aa);
 
-//                    rv.setLayoutManager(new LinearLayoutManager(this));
-//                    adapter = new MyRecyclerViewAdapter(this, itemList);
-//                    adapter.setClickListener(this);
-//                    rv.setAdapter(adapter);
+//
                     Log.e("msg", "Adapter set");
 
                 }
@@ -148,22 +139,7 @@ public class ShopListActivity extends AppCompatActivity{
             }
         });
 
-//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-//                name = adapterView.getItemAtPosition(i).toString();
-//                Log.e("msg","You clicked on " + name);
-//
-//                Cursor data = myDB.getItemID(name);
-//
-//                itemID = -1;
-//
-//                while(data.moveToNext()){
-//                    itemID = data.getInt(0);
-//                }
-//
-//        }
-//        });        Log.e("msg","Item listener set");
+
 
         Log.e("msg", "After Item listener set");
 
@@ -176,6 +152,13 @@ public class ShopListActivity extends AppCompatActivity{
         builder.setCancelable(true);
         builder.setTitle(title);
         builder.setMessage(Message);
+        builder.setPositiveButton("Add item to the list", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent i = new Intent(ShopListActivity.this, HomeActivity.class );
+                startActivity(i);
+            }
+        });
         builder.show();
         Log.e("msg", "Builder created");
     }
@@ -202,19 +185,6 @@ public class ShopListActivity extends AppCompatActivity{
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-//    private void animImage(final Context context){
-//        //Load the animation like this
-//        final Animation animRightToLeft = AnimationUtils.loadAnimation(context, R.anim.slide);
-//        lv.setLayerType(View.LAYER_TYPE_HARDWARE,null);
-//        lv.startAnimation(animRightToLeft);
-//    }
-//}
-//    @Override
-//    public void onItemClick(View view, int position){
-//        Toast.makeText(this,"You clicked  " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
-//    }
 
 }
 
