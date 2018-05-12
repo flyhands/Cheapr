@@ -3,6 +3,8 @@ package kict.edu.my.cheapr;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -66,10 +69,10 @@ public class ItemActivity extends AppCompatActivity {
         pb = (ProgressBar)findViewById(R.id.progressBar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        tvMidRange.setText("RM12.50");
-        tvMinRange.setText("RM13.50");
-        tvMaxRange.setText("RM14.50");
+        
+        tvMidRange.setText("RM3.50");
+        tvMinRange.setText("RM3.45");
+        tvMaxRange.setText("RM3.75");
 
         pb.setProgress(50);
 
@@ -88,12 +91,26 @@ public class ItemActivity extends AppCompatActivity {
             lvMarket.setAdapter(adapter);
         }
 
-        price.add("RM22.50");
-        price.add("RM22.00");
+        price.add("RM3.50");
+        price.add("RM3.75");
 
         for(int y =0;y<price.size();y++){
-            adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,price);
+            adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,price){
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent){
+
+                    TextView item = (TextView) super.getView(position,convertView,parent);
+
+                    item.setTextColor(Color.parseColor("#ad0b47"));
+
+                    item.setTypeface(item.getTypeface(), Typeface.BOLD);
+
+                    return item;
+
+                }
+            };
             Log.e("msg","adapter works");
+
             lvPrice.setAdapter(adapter);
         }
 //        getSupportActionBar().setTitle(Html.fromHtml("<font color='#301631'>ActionBartitle</font>"));

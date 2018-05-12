@@ -54,25 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
-//    public void deleteData(ArrayList<Integer> selectedID, ArrayList<String> selectedName){
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        for(int i = 0;i< selectedID.size();i++) {
-//            String query = "DELETE FROM " + TABLE_NAME + " WHERE "
-//                    + COL_1 + " = '" + selectedID.get(i) + "'" +
-//                    " AND " + COL_2 + " = '" + selectedName.get(i) + "'";
-//            Log.d("msg", "deleteName: query: " + query);
-//            Log.d("msg", "deleteName: Deleting " + selectedName.get(i) + " from database.");
-//            db.execSQL(query);
-//        }
-//    }
 
-//    public void deleteData(int id){
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        String query = "DELETE FROM " + TABLE_NAME + " WHERE "
-//                + COL_1 + " = '" + id + "'";
-//        Log.d("msg", "deleteName: query: " + query);
-//        db.execSQL(query);
-//    }
 
     public Cursor getAllData(){
         SQLiteDatabase db = this.getWritableDatabase();
