@@ -14,7 +14,7 @@ import java.net.URL;
  * Created by anas on 5/1/18.
  */
 
-public class RetrieveProductList extends AsyncTask<String, Void, String> {
+public class RetrieveProductData extends AsyncTask<String, Void, String> {
     private String jsonResult;
     private WebListener webListener;
 

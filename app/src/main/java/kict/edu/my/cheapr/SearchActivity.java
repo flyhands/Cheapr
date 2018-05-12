@@ -20,7 +20,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import kict.edu.my.cheapr.web.RetrieveProductList;
+import kict.edu.my.cheapr.models.Product;
+import kict.edu.my.cheapr.web.RetrieveProductData;
 import kict.edu.my.cheapr.web.WebListener;
 
 public class SearchActivity extends AppCompatActivity implements WebListener {
@@ -29,9 +30,11 @@ public class SearchActivity extends AppCompatActivity implements WebListener {
 
     SearchView sv;
     ListView lv;
-    ArrayAdapter<String> ia;
+    ArrayAdapter<Product> ia;
+//    ArrayAdapter<String> ia;
     JSONArray json;
-    ArrayList<String> values;
+//    ArrayList<String> values;
+    ArrayList<Product> values;
 
     private boolean loading;
     private String url;
@@ -69,7 +72,21 @@ public class SearchActivity extends AppCompatActivity implements WebListener {
 
                 Log.e("msg","dapat access listview");
                 String text = txtview.getText().toString();
-                Log.e("msg","dapat text");
+                Log.e(TAG,"dapat text");
+                Log.d(TAG, text);
+                int size = values.size();
+                Log.d(TAG, "size "+size);
+                String idp = "-1";
+                for (int idx = 0; idx < size; idx++) {
+                    Log.d(TAG, String.format("%s %s", text, values.get(idx).toString()));
+                    if (text.equals(values.get(idx).toString())) {
+                        idp = values.get(idx).getId();
+                        Log.d(TAG, String.format("%s %s", text, idx));
+                        x.putExtra("id", values.get(idx).getId());
+                        break;
+                    }
+                }
+                Log.d(TAG, idp);
                 x.putExtra("text",text);
                 startActivity(x);
 
@@ -125,7 +142,10 @@ public class SearchActivity extends AppCompatActivity implements WebListener {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
                 if (i < 10) Log.d(TAG, object.toString());
-                values.add(object.getString("name"));
+//                values.add(object.getString("name"));
+                values.add(new Product(
+                        object.getString("id"), object.getString("name")
+                ));
             }
             if (lv.getAdapter() == null) {
                 ia = new ArrayAdapter<>(this, R.layout.listview_item, R.id.tv, values);
@@ -148,7 +168,7 @@ public class SearchActivity extends AppCompatActivity implements WebListener {
     private void retrieveProductListFromWeb() {
         if (loading) return;
         loading = true;
-        RetrieveProductList retrieveProductList = new RetrieveProductList();
+        RetrieveProductData retrieveProductList = new RetrieveProductData();
         retrieveProductList.setWebListener(this);
         if (!values.isEmpty())
             retrieveProductList.execute(String.format("%s", url));
