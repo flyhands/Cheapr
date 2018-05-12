@@ -11,4 +11,11 @@ public interface WebListener {
     public String onWebSuccess(String response);
 
     public String onWebFailure(String response);
+
+    public static final String CAT_SNACK = "snack";
+    public static final String CAT_DRINK = "drink";
+    public static final String CAT_FRESHFOOD = "fresh";
+    public static final String CAT_TOILETRIES = "toilet";
+    public static final String CAT_HOUSEHOLD = "house";
+    public static final String CAT_INGREDIENT = "ingredient";
 }
