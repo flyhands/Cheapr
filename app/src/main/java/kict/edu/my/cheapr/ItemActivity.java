@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,9 +25,22 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class ItemActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+
+import kict.edu.my.cheapr.models.Price;
+import kict.edu.my.cheapr.web.RetrieveProductData;
+import kict.edu.my.cheapr.web.WebListener;
+
+public class ItemActivity extends AppCompatActivity implements WebListener {
+    private final String TAG = getClass().getName();
+
     DatabaseHelper myDB;
 //    Button addToCart;
 //    Button locate;
@@ -50,14 +65,20 @@ public class ItemActivity extends AppCompatActivity {
 //    FragmentManager fm;
 //    FragmentTransaction transaction;
 
+    Bundle bundle;
+    private boolean loading;
+    private String url;
+    private ArrayList<Price> prices;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
 
+        bundle = getIntent().getExtras();
+        Log.d(TAG, String.format("%s", getIntent().hasExtra("id") ? bundle.getString("id") : "no id"));
 
         myDB = new DatabaseHelper(this);
-
 
         btnPredict = (Button)findViewById(R.id.btnPredict);
         lvMarket = (ListView)findViewById(R.id.marketList);
@@ -69,133 +90,12 @@ public class ItemActivity extends AppCompatActivity {
         tvMaxRange = (TextView)findViewById(R.id.tvMaxRange);
         pb = (ProgressBar)findViewById(R.id.progressBar);
 
+        loading = false;
+        url = String.format("%s/product/%s", WebListener.API, bundle.getString("id"));
+        Log.d(TAG, "url "+url);
+        retrieveProductDetailsFromWeb();
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        tvMidRange.setText("RM3.50");
-        tvMinRange.setText("RM3.45");
-        tvMaxRange.setText("RM3.75");
-
-        pb.setProgress(50);
-
-        market = new ArrayList<>();
-        price = new ArrayList<>();
-        locate = new ArrayList<>();
-        cart = new ArrayList<>();
-
-        market.add("Giant");
-        market.add("Econsave");
-        Log.e("msg","Supermarket successfully added");
-
-        for(int x =0;x<market.size();x++){
-            adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,market){
-                @Override
-                public View getView(int position, View convertView, ViewGroup parent){
-
-                    TextView item = (TextView) super.getView(position,convertView,parent);
-
-                    item.setTextColor(Color.parseColor("#25969a"));
-
-                    item.setTypeface(item.getTypeface(), Typeface.BOLD);
-
-                    return item;
-
-                }
-            };
-            Log.e("msg","adapter works");
-            lvMarket.setAdapter(adapter);
-        }
-
-        price.add("RM3.50");
-        price.add("RM3.75");
-
-        for(int y =0;y<price.size();y++){
-            adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,price){
-                @Override
-                public View getView(int position, View convertView, ViewGroup parent){
-
-                    TextView item = (TextView) super.getView(position,convertView,parent);
-
-                    item.setTextColor(Color.parseColor("#ad0b47"));
-
-                    item.setTypeface(item.getTypeface(), Typeface.BOLD);
-
-                    return item;
-
-                }
-            };
-            Log.e("msg","adapter works");
-
-            lvPrice.setAdapter(adapter);
-        }
-//        getSupportActionBar().setTitle(Html.fromHtml("<font color='#301631'>ActionBartitle</font>"));
-
-
-         for(a=0;a<price.size();a++){
-            locate.add("");
-             adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,locate){
-                 @Override
-                 public View getView(int position, View convertView, ViewGroup parent){
-
-                     TextView item = (TextView) super.getView(position,convertView,parent);
-
-                     item.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.location_place,null));
-
-                     return item;
-
-                 }
-             };
-             Log.e("msg","adapter works");
-             lvLocate.setAdapter(adapter);
-
-             lvLocate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                 @Override
-                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                     final String sMarket = market.get(position).toString();
-                     Log.e("msg",sMarket);
-                     AlertDialog.Builder builder = new AlertDialog.Builder(ItemActivity.this);
-                     builder.setTitle("Google Maps");
-                     builder.setMessage("The map will direct you to the nearest branch.");
-                     builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
-                         @Override
-                         public void onClick(DialogInterface dialog, int which) {
-                             //Open google map URL
-                             Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("google.navigation:q=an+"+ sMarket +""));
-                             startActivity(intent);
-                         }
-                     });
-                     builder.setNegativeButton("Cancel",null);
-                     builder.show();
-                 }
-             });
-        }
-
-
-
-        //Adding item into arraylist and sqlite
-        for(int b=0;b<price.size();b++){
-            cart.add("");
-            adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,cart){
-                @Override
-                public View getView(int position, View convertView, ViewGroup parent){
-
-                    TextView item = (TextView) super.getView(position,convertView,parent);
-
-                    item.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.shopping_add,null));
-
-                    return item;
-
-                }
-            };
-            Log.e("msg","adapter works");
-            lvCart.setAdapter(adapter);
-
-            lvCart.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    addItem(name);
-                }
-            });
-        }
 
         btnPredict.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,18 +106,11 @@ public class ItemActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
         Intent intent = getIntent();
         name = intent.getStringExtra("text");
 
         TextView tv = (TextView) findViewById(R.id.itemName);
         tv.setText(name);
-
-
-
     }
 
 
@@ -261,4 +154,174 @@ public class ItemActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public String onWebSuccess(String response) {
+        Log.d(TAG, "onwebsuccess");
+        Log.d(TAG, response);
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("prices");
+            prices = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                JSONObject object = jsonArray.getJSONObject(i);
+                prices.add(new Price(
+                        object.getDouble("price_value"),
+                        object.getString("supermarket")
+                ));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(prices, new Comparator<Price>() {
+            @Override
+            public int compare(Price p1, Price p2) {
+                return Double.compare(p1.getValue(), p2.getValue());
+            }
+        });
+        Log.d(TAG, prices.toString());
+        init();
+        return null;
+    }
+
+    @Override
+    public String onWebFailure(String response) {
+        return null;
+    }
+
+    private void retrieveProductDetailsFromWeb() {
+        if (loading) return;
+        loading = true;
+        RetrieveProductData retrieveProductData = new RetrieveProductData();
+        retrieveProductData.setWebListener(this);
+        retrieveProductData.execute(String.format("%s", url));
+        loading = false;
+    }
+
+    private int getPercentage() {
+        Log.d(TAG, "getpercentage");
+        int size = prices.size();
+        double min = prices.get(0).getValue();
+        double max = prices.get(size-1).getValue();
+        double mid = prices.get(size/2).getValue();
+        Double ans = ((mid-min) / (max-min)) * 100;
+        Log.d(TAG, "min "+min);
+        Log.d(TAG, "max "+max);
+        Log.d(TAG, "mid "+mid);
+        Log.d(TAG, "ans "+ans);
+        initTextViewRange(min, mid, max);
+        return ans.intValue();
+    }
+
+    private void init() {
+        pb.setProgress(getPercentage());
+        initMarket();
+        initPrice();
+        initLocate();
+        initCart();
+    }
+
+    private void initTextViewRange(double min, double mid, double max) {
+        tvMinRange.setText(String.format("RM%.2f", min));
+        tvMidRange.setText(String.format("RM%.2f", mid));
+        tvMaxRange.setText(String.format("RM%.2f", max));
+    }
+
+    private void initMarket() {
+        Log.d(TAG, "initmarket");
+        market = new ArrayList<>();
+        for (int i = 0; i < prices.size(); i++) {
+            market.add(prices.get(i).getSupermarket());
+        }
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, market) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                TextView item = (TextView)super.getView(position, convertView, parent);
+                item.setTextColor(Color.parseColor("#25969a"));
+                item.setTypeface(item.getTypeface(), Typeface.BOLD);
+                return item;
+            }
+        };
+        lvMarket.setAdapter(adapter);
+    }
+
+    private void initPrice() {
+        Log.d(TAG, "initprice");
+        price = new ArrayList<>();
+        for (int i = 0; i < prices.size(); i++) {
+            price.add(String.format("RM%.2f", prices.get(i).getValue()));
+        }
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, price) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                TextView item = (TextView)super.getView(position, convertView, parent);
+                item.setTextColor(Color.parseColor("#ad0b47"));
+                item.setTypeface(item.getTypeface(), Typeface.BOLD);
+                return item;
+            }
+        };
+        lvPrice.setAdapter(adapter);
+    }
+
+    private void initLocate() {
+        Log.d(TAG, "initlocate");
+        locate = new ArrayList<>();
+        for (int i = 0; i < prices.size(); i++) {
+            locate.add("");
+        }
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, locate) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                TextView item = (TextView)super.getView(position, convertView, parent);
+                item.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.location_place, null));
+                return item;
+            }
+        };
+        lvLocate.setAdapter(adapter);
+        lvLocate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final String sMarket = market.get(i).toString();
+                Log.d(TAG, "lvlocate click "+sMarket);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ItemActivity.this);
+                builder.setTitle("Google Maps");
+                builder.setMessage("The map will direct you to the nearest branch.");
+                builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=an+"+sMarket+""));
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton("Cancel", null);
+                builder.show();
+            }
+        });
+    }
+
+    private void initCart() {
+        Log.d(TAG, "initcart");
+        cart = new ArrayList<>();
+        for (int i = 0; i < prices.size(); i++) {
+            cart.add("");
+        }
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, cart) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                TextView item = (TextView)super.getView(position, convertView, parent);
+                item.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shopping_add, null));
+                return item;
+            }
+        };
+        lvCart.setAdapter(adapter);
+        lvCart.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                addItem(name);
+            }
+        });
+    }
 }
