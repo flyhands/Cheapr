@@ -9,7 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import kict.edu.my.cheapr.web.RetrieveProductList;
+import kict.edu.my.cheapr.web.RetrieveProductData;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -35,7 +35,6 @@ public class HomeActivity extends AppCompatActivity {
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment, new HomeFragment());
         fragmentTransaction.commit();
-        new RetrieveProductList().execute("http://35.189.162.214:8001/supermarket");
     }
 
     @Override
