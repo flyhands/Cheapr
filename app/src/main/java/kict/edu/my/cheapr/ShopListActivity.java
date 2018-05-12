@@ -100,12 +100,12 @@ public class ShopListActivity extends AppCompatActivity{
                 SwipeMenuItem deleteItem = new SwipeMenuItem(
                         getApplicationContext());
                 // set item background
-                deleteItem.setBackground(new ColorDrawable(Color.rgb(0x32,
-                        0xe2, 0x1b)));
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xff,
+                        0xff, 0xff)));
                 // set item width
                 deleteItem.setWidth(170);
                 // set a icon
-                deleteItem.setIcon(R.drawable.ic_action_tick);
+                deleteItem.setIcon(R.drawable.ic_checked_item);
                 // add to menu
                 menu.addMenuItem(deleteItem);
             }

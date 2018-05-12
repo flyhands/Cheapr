@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -69,7 +70,7 @@ public class ItemActivity extends AppCompatActivity {
         pb = (ProgressBar)findViewById(R.id.progressBar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        
+
         tvMidRange.setText("RM3.50");
         tvMinRange.setText("RM3.45");
         tvMaxRange.setText("RM3.75");
@@ -86,7 +87,20 @@ public class ItemActivity extends AppCompatActivity {
         Log.e("msg","Supermarket successfully added");
 
         for(int x =0;x<market.size();x++){
-            adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,market);
+            adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,market){
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent){
+
+                    TextView item = (TextView) super.getView(position,convertView,parent);
+
+                    item.setTextColor(Color.parseColor("#25969a"));
+
+                    item.setTypeface(item.getTypeface(), Typeface.BOLD);
+
+                    return item;
+
+                }
+            };
             Log.e("msg","adapter works");
             lvMarket.setAdapter(adapter);
         }
@@ -117,8 +131,19 @@ public class ItemActivity extends AppCompatActivity {
 
 
          for(a=0;a<price.size();a++){
-            locate.add("Locate");
-             adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,locate);
+            locate.add("");
+             adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,locate){
+                 @Override
+                 public View getView(int position, View convertView, ViewGroup parent){
+
+                     TextView item = (TextView) super.getView(position,convertView,parent);
+
+                     item.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.location_place,null));
+
+                     return item;
+
+                 }
+             };
              Log.e("msg","adapter works");
              lvLocate.setAdapter(adapter);
 
@@ -148,8 +173,19 @@ public class ItemActivity extends AppCompatActivity {
 
         //Adding item into arraylist and sqlite
         for(int b=0;b<price.size();b++){
-            cart.add("Add");
-            adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,cart);
+            cart.add("");
+            adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,cart){
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent){
+
+                    TextView item = (TextView) super.getView(position,convertView,parent);
+
+                    item.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.shopping_add,null));
+
+                    return item;
+
+                }
+            };
             Log.e("msg","adapter works");
             lvCart.setAdapter(adapter);
 
