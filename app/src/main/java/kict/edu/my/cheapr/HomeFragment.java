@@ -15,6 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import kict.edu.my.cheapr.web.WebListener;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -93,7 +95,7 @@ public class HomeFragment extends Fragment {
         btnSnack.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent i = new Intent(getContext(),SearchActivity.class);
-                i.putExtra("category", "snack");
+                i.putExtra("category", WebListener.CAT_SNACK);
                 startActivity(i);
             }
         });
@@ -101,7 +103,7 @@ public class HomeFragment extends Fragment {
         btnDrink.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent i = new Intent(getContext(),SearchActivity.class);
-                i.putExtra("category", "drink");
+                i.putExtra("category", WebListener.CAT_DRINK);
                 startActivity(i);
             }
         });
@@ -109,7 +111,7 @@ public class HomeFragment extends Fragment {
         btnFreshfood.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent i = new Intent(getContext(),SearchActivity.class);
-                i.putExtra("category", "fresh food");
+                i.putExtra("category", WebListener.CAT_FRESHFOOD);
                 startActivity(i);
             }
         });
@@ -117,7 +119,7 @@ public class HomeFragment extends Fragment {
         btnIngredient.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent i = new Intent(getContext(),SearchActivity.class);
-                i.putExtra("category", "ingredient");
+                i.putExtra("category", WebListener.CAT_INGREDIENT);
                 startActivity(i);
             }
         });
@@ -125,7 +127,7 @@ public class HomeFragment extends Fragment {
         btnToiletries.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent i = new Intent(getContext(),SearchActivity.class);
-                i.putExtra("category", "toiletries");
+                i.putExtra("category", WebListener.CAT_TOILETRIES);
                 startActivity(i);
             }
         });
@@ -133,7 +135,7 @@ public class HomeFragment extends Fragment {
         btnHousehold.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent i = new Intent(getContext(),SearchActivity.class);
-                i.putExtra("category", "household");
+                i.putExtra("category", WebListener.CAT_HOUSEHOLD);
                 startActivity(i);
             }
         });
