@@ -18,6 +18,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import kict.edu.my.cheapr.models.Product;
@@ -116,7 +118,12 @@ public class SearchActivity extends AppCompatActivity implements WebListener {
             public boolean onQueryTextSubmit(String s) {
                 Log.d(TAG, "text submit "+s);
                 isSearch = true;
-                url = String.format("%s/product/search?name=%s", WebListener.API, s);
+                try {
+                    url = String.format("%s/product/search?name=%s",
+                        WebListener.API, URLEncoder.encode(s, "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
                 retrieveProductListFromWeb();
 //                ia.setKey(s);
                 lv.invalidateViews();
