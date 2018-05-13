@@ -4,7 +4,6 @@ package kict.edu.my.cheapr;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,6 @@ import android.widget.Button;
 import android.widget.SearchView;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import kict.edu.my.cheapr.web.WebListener;
 
@@ -31,7 +28,6 @@ public class HomeFragment extends Fragment {
     Button btnHousehold;
 
     SearchView sv;
-    String dummy2 = "[asdfas,asdfasdf,asdf]";
     JSONArray json;
     String dummy = "[" +
             "{'id':3,'name':'443452','category':'house','category_name':'Household','supermarket':'Tesco','date_created':'2018-04-14T13:53:35.009779Z','date_updated':'2018-04-14T14:24:45.228848Z'}," +
@@ -56,17 +52,17 @@ public class HomeFragment extends Fragment {
         tv.setText((CharSequence) b.get("message"));
         return view;*/
 
-        try {
-            Log.e("SEARCH", "asfa");
-            json = new JSONArray(dummy);
-            Log.e("SEARCH", json.toString());
-            for (int i = 0; i < json.length(); i++) {
-                JSONObject obj = json.getJSONObject(i);
-                Log.e("SEARCH", obj.get("category").toString());
-            }
-        } catch (JSONException e) {
-            Log.e("SEARCH", "Failed to parse");
-        }
+//        try {
+//            Log.e("SEARCH", "asfa");
+//            json = new JSONArray(dummy);
+//            Log.e("SEARCH", json.toString());
+//            for (int i = 0; i < json.length(); i++) {
+//                JSONObject obj = json.getJSONObject(i);
+//                Log.e("SEARCH", obj.get("category").toString());
+//            }
+//        } catch (JSONException e) {
+//            Log.e("SEARCH", "Failed to parse");
+//        }
 
         btnSnack = (Button)view.findViewById(R.id.ButtonSnack);
         btnDrink = (Button)view.findViewById(R.id.ButtonDrink);

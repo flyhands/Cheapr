@@ -30,7 +30,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -141,9 +140,9 @@ public class ItemActivity extends AppCompatActivity implements WebListener {
     public void addItem(String name){
         boolean isInserted = myDB.insertData(name);
         if(isInserted == true)
-            Toast.makeText(ItemActivity.this,"Data inserted", Toast.LENGTH_LONG).show();
+            Toast.makeText(ItemActivity.this,"Item added to shopping list", Toast.LENGTH_LONG).show();
         else
-            Toast.makeText(ItemActivity.this,"Data not inserted", Toast.LENGTH_LONG).show();
+            Toast.makeText(ItemActivity.this,"Item failed to be added", Toast.LENGTH_LONG).show();
 
 
     }

@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -34,6 +36,9 @@ public class ShopListActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_list);
         Log.e("msg", "Layout formed");
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         //Create and arraylist objet to store selected items
 
@@ -114,6 +119,13 @@ public class ShopListActivity extends AppCompatActivity{
 // set creator
         clv.setMenuCreator(creator);
 
+        clv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(ShopListActivity.this, "Swipe left, tick to delete", Toast.LENGTH_SHORT).show();
+
+            }
+        });
         clv.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
@@ -184,6 +196,12 @@ public class ShopListActivity extends AppCompatActivity{
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
 }
