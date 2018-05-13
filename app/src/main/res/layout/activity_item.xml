@@ -31,8 +31,7 @@
             <ImageView
                 android:id="@+id/itemImage"
                 android:layout_width="match_parent"
-                android:layout_height="104dp"
-                android:src="@drawable/hundred_plus" />
+                android:layout_height="104dp" />
 
             <TextView
                 android:id="@+id/itemName"
