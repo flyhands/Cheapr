@@ -38,6 +38,7 @@ public class SearchActivity extends AppCompatActivity implements WebListener {
 
     private boolean loading;
     private String url;
+    private boolean isSearch;
 
 //    String dummy = "[" +
 //            "{'id':3,'name':'Daia Toilet Cleaner','category':'household','category_name':'Household','supermarket':'Tesco','date_created':'2018-04-14T13:53:35.009779Z','date_updated':'2018-04-14T14:24:45.228848Z'}," +
@@ -54,6 +55,7 @@ public class SearchActivity extends AppCompatActivity implements WebListener {
 
         values = new ArrayList<>();
         loading = false;
+        isSearch = false;
         url = String.format("%s/product/search", WebListener.API);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -112,6 +114,10 @@ public class SearchActivity extends AppCompatActivity implements WebListener {
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+                Log.d(TAG, "text submit "+s);
+                isSearch = true;
+                url = String.format("%s/product/search?name=%s", WebListener.API, s);
+                retrieveProductListFromWeb();
 //                ia.setKey(s);
                 lv.invalidateViews();
                 return true;
@@ -170,7 +176,12 @@ public class SearchActivity extends AppCompatActivity implements WebListener {
         loading = true;
         RetrieveProductData retrieveProductList = new RetrieveProductData();
         retrieveProductList.setWebListener(this);
-        if (!values.isEmpty())
+        if (isSearch) {
+            values.clear();
+            retrieveProductList.execute(String.format("%s", url));
+            isSearch = false;
+        }
+        else if (!values.isEmpty())
             retrieveProductList.execute(String.format("%s", url));
         else if (getIntent().hasExtra("category")) {
            sv.setVisibility(View.GONE);
