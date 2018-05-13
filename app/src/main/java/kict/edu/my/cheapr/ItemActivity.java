@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import kict.edu.my.cheapr.models.Price;
+import kict.edu.my.cheapr.web.RetrieveImage;
 import kict.edu.my.cheapr.web.RetrieveProductData;
 import kict.edu.my.cheapr.web.WebListener;
 
@@ -58,6 +60,7 @@ public class ItemActivity extends AppCompatActivity implements WebListener {
     TextView tvMidRange;
     TextView tvMinRange;
     TextView tvMaxRange;
+    ImageView itemImage;
     ProgressBar pb;
 //    CustomAdapter ca;
     CustomAdapter aa;
@@ -79,6 +82,7 @@ public class ItemActivity extends AppCompatActivity implements WebListener {
 
         myDB = new DatabaseHelper(this);
 
+        itemImage = (ImageView)findViewById(R.id.itemImage);
         btnPredict = (Button)findViewById(R.id.btnPredict);
         lvMarket = (ListView)findViewById(R.id.marketList);
         lvPrice = (ListView)findViewById(R.id.priceList);
@@ -159,6 +163,10 @@ public class ItemActivity extends AppCompatActivity implements WebListener {
         Log.d(TAG, response);
         try {
             JSONObject jsonObject = new JSONObject(response);
+            String thumbnail = jsonObject.getString("thumbnail");
+            if (thumbnail != null && !thumbnail.isEmpty()) {
+                new RetrieveImage(itemImage).execute(thumbnail);
+            }
             JSONArray jsonArray = jsonObject.getJSONArray("prices");
             prices = new ArrayList<>();
             for (int i = 0; i < 3; i++) {
