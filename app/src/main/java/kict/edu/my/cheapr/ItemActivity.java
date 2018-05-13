@@ -35,6 +35,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import kict.edu.my.cheapr.models.Price;
+import kict.edu.my.cheapr.models.Product;
 import kict.edu.my.cheapr.web.RetrieveImage;
 import kict.edu.my.cheapr.web.RetrieveProductData;
 import kict.edu.my.cheapr.web.WebListener;
@@ -70,6 +71,7 @@ public class ItemActivity extends AppCompatActivity implements WebListener {
     Bundle bundle;
     private boolean loading;
     private String url;
+    private Product product;
     private ArrayList<Price> prices;
 
     @Override
@@ -104,8 +106,26 @@ public class ItemActivity extends AppCompatActivity implements WebListener {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(ItemActivity.this,PredictActivity.class);
-                startActivity(i);
+                Intent intent = new Intent(ItemActivity.this,PredictActivity.class);
+                Bundle bundle = new Bundle();
+                for (Price p : prices) {
+                    if (p.getSupermarket().equals("EconSave")) {
+                        bundle.putDouble("price_value", p.getPrice_value());
+                        bundle.putDouble("currency_value", p.getCurrency_value());
+                        bundle.putInt("day_start", p.getDay_start());
+                        bundle.putInt("day_end", p.getDay_end());
+                        bundle.putInt("month_start", p.getMonth_start());
+                        bundle.putInt("month_end", p.getMonth_end());
+                        bundle.putInt("year_start", p.getYear_start());
+                        bundle.putInt("year_end", p.getYear_end());
+                        bundle.putString("supermarket", p.getSupermarket());
+                        bundle.putString("name", product.getName());
+                        bundle.putString("category", product.getCategory());
+                        break;
+                    }
+                }
+                intent.putExtra("bundle", bundle);
+                startActivity(intent);
             }
         });
 
@@ -163,7 +183,13 @@ public class ItemActivity extends AppCompatActivity implements WebListener {
         Log.d(TAG, response);
         try {
             JSONObject jsonObject = new JSONObject(response);
-            String thumbnail = jsonObject.getString("thumbnail");
+            product = new Product(
+                    jsonObject.getString("id"),
+                    jsonObject.getString("name"),
+                    jsonObject.getString("category_name"),
+                    jsonObject.getString("thumbnail")
+            );
+            String thumbnail = product.getThumbnail();
             if (thumbnail != null && !thumbnail.isEmpty()) {
                 new RetrieveImage(itemImage).execute(thumbnail);
             }
@@ -173,6 +199,13 @@ public class ItemActivity extends AppCompatActivity implements WebListener {
                 JSONObject object = jsonArray.getJSONObject(i);
                 prices.add(new Price(
                         object.getDouble("price_value"),
+                        object.getDouble("currency_value"),
+                        object.getInt("day_start"),
+                        object.getInt("day_end"),
+                        object.getInt("month_start"),
+                        object.getInt("month_end"),
+                        object.getInt("year_start"),
+                        object.getInt("year_end"),
                         object.getString("supermarket")
                 ));
             }
@@ -182,7 +215,7 @@ public class ItemActivity extends AppCompatActivity implements WebListener {
         Collections.sort(prices, new Comparator<Price>() {
             @Override
             public int compare(Price p1, Price p2) {
-                return Double.compare(p1.getValue(), p2.getValue());
+                return Double.compare(p1.getPrice_value(), p2.getPrice_value());
             }
         });
         Log.d(TAG, prices.toString());
@@ -207,9 +240,9 @@ public class ItemActivity extends AppCompatActivity implements WebListener {
     private int getPercentage() {
         Log.d(TAG, "getpercentage");
         int size = prices.size();
-        double min = prices.get(0).getValue();
-        double max = prices.get(size-1).getValue();
-        double mid = prices.get(size/2).getValue();
+        double min = prices.get(0).getPrice_value();
+        double max = prices.get(size-1).getPrice_value();
+        double mid = prices.get(size/2).getPrice_value();
         Double ans = ((mid-min) / (max-min)) * 100;
         Log.d(TAG, "min "+min);
         Log.d(TAG, "max "+max);
@@ -256,7 +289,7 @@ public class ItemActivity extends AppCompatActivity implements WebListener {
         Log.d(TAG, "initprice");
         price = new ArrayList<>();
         for (int i = 0; i < prices.size(); i++) {
-            price.add(String.format("RM%.2f", prices.get(i).getValue()));
+            price.add(String.format("RM%.2f", prices.get(i).getPrice_value()));
         }
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, price) {
             @NonNull

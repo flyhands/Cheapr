@@ -29,12 +29,12 @@
             android:layout_below="@+id/textView"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="36dp"
-            android:text="RM23.50"
+            android:text="RM-.--"
             android:textSize="65sp"
             android:textColor="@color/white"
             />
 
-        <Button
+        <!--Button
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,6 +42,6 @@
             android:layout_centerHorizontal="true"
             android:background="@color/green_blue"
             android:text="View Statistics"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"/-->
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
