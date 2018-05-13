@@ -157,7 +157,10 @@ public class SearchActivity extends AppCompatActivity implements WebListener {
                 if (i < 10) Log.d(TAG, object.toString());
 //                values.add(object.getString("name"));
                 values.add(new Product(
-                        object.getString("id"), object.getString("name")
+                        object.getString("id"),
+                        object.getString("name"),
+                        object.getString("category_name"),
+                        object.getString("thumbnail")
                 ));
             }
             if (lv.getAdapter() == null) {
