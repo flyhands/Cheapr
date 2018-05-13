@@ -12,6 +12,9 @@ import android.widget.SearchView;
 
 import org.json.JSONArray;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import kict.edu.my.cheapr.web.WebListener;
 
 
@@ -78,7 +81,11 @@ public class HomeFragment extends Fragment {
             public boolean onQueryTextSubmit(String s) {
 
                 Intent i = new Intent(getContext(),SearchActivity.class);
-                i.putExtra("searchkeyword", s);
+                try {
+                    i.putExtra("searchkeyword", URLEncoder.encode(s, "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
                 startActivity(i);
                 return true;
             }
